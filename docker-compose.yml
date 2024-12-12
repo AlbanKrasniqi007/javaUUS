@@ -9,15 +9,19 @@ services:
       SPRING_DATASOURCE_PASSWORD: password
     depends_on:
       - db
+    networks:
+      - app_network
 
   db:
-    image: mysql:latest
+    image: mysql:8.0
     container_name: mysql
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: uus
     ports:
       - "3306:3306"
+    networks:
+      - app_network
 
   phpmyadmin:
     image: phpmyadmin
@@ -28,3 +32,9 @@ services:
       - PMA_ARBITRARY=1
       - PMA_HOST=db
       - PMA_PORT=3306
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge
